@@ -1,11 +1,21 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import os
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import cosine_similarity
 
 st.title("Movie Recommender System")
 df = pd.read_csv('cleaned_data.csv')
-with open("similarity.pkl", "rb") as file:
-    similarities = pickle.load(file)
+
+if not os.path.exists("similarities.pkl"):
+    if st.button("Generate similarities"):
+        tv = TfidfVectorizer(max_features = 1000, stop_words = 'english')
+        m = cv.fit_transform(df['tags'])
+        m_df = pd.DataFrame(data = dtm.toarray(), columns = cv.get_feature_names_out(), similarities = cosine_similarity(dtm_df), pickle.dump(similarities, open('similarities.pkl', 'wb'))
+
+
 
 movies = df['title'].tolist()
 
@@ -48,6 +58,7 @@ if st.button("Recommend Movies"):
     if index == -1:
         st.write("Movie not found.")
     else:
+        similarities = pickle.load(open('similarities.pkl' 'rb'))
         st.write(f"Recommendations for '{name}' will be displayed here.")
         st.write(f"Movie index is { index }")
         similarity_indexes = list(enumerate(similarities[index]))
